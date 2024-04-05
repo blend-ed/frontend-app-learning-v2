@@ -31,6 +31,7 @@ const UnitButton = ({
         complete: showCompletion && complete,
       }, className)}
       variant="link"
+      size="sm"
       onClick={handleClick}
       title={title}
     >

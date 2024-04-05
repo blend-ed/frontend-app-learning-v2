@@ -1,19 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import {
-  FormattedMessage,
-  FormattedTime,
   injectIntl,
   intlShape,
 } from '@edx/frontend-platform/i18n';
-import { faCheckCircle as fasCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { faCheckCircle as farCheckCircle } from '@fortawesome/free-regular-svg-icons';
+import { faCheckCircle as fasCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import EffortEstimate from '../../shared/effort-estimate';
-import { useModel } from '../../generic/model-store';
 import messages from './messages';
 
 const SequenceLink = ({
@@ -22,71 +19,21 @@ const SequenceLink = ({
   courseId,
   first,
   sequence,
+  currentSequence,
 }) => {
   const {
     complete,
-    description,
-    due,
     showLink,
     title,
   } = sequence;
-  const {
-    userTimezone,
-  } = useModel('outline', courseId);
 
-  const timezoneFormatArgs = userTimezone ? { timeZone: userTimezone } : {};
-
-  const coursewareUrl = <Link to={`/course/${courseId}/${id}`}>{title}</Link>;
+  const coursewareUrl = <Link to={`/course/${courseId}/${id}`} className={sequence.id === currentSequence ? 'text-wrap font-weight-bold text-white' : 'text-dark'}>{title}</Link>;
   const displayTitle = showLink ? coursewareUrl : title;
-
-  const dueDateMessage = (
-    <FormattedMessage
-      id="learning.outline.sequence-due-date-set"
-      defaultMessage="{description} due {assignmentDue}"
-      description="Used below an assignment title"
-      values={{
-        assignmentDue: (
-          <FormattedTime
-            key={`${id}-due`}
-            day="numeric"
-            month="short"
-            year="numeric"
-            timeZoneName="short"
-            value={due}
-            {...timezoneFormatArgs}
-          />
-        ),
-        description: description || '',
-      }}
-    />
-  );
-
-  const noDueDateMessage = (
-    <FormattedMessage
-      id="learning.outline.sequence-due-date-not-set"
-      defaultMessage="{description}"
-      description="Used below an assignment title"
-      values={{
-        assignmentDue: (
-          <FormattedTime
-            key={`${id}-due`}
-            day="numeric"
-            month="short"
-            year="numeric"
-            timeZoneName="short"
-            value={due}
-            {...timezoneFormatArgs}
-          />
-        ),
-        description: description || '',
-      }}
-    />
-  );
 
   return (
     <li>
-      <div className={classNames('', { 'mt-2 pt-2 border-top border-light': !first })}>
-        <div className="row w-100 m-0">
+      <div className={classNames('pb-2', { 'mt-2 pt-2': !first, 'bg-primary py-3': sequence.id === currentSequence })} style={{ borderRadius: '4rem' }}>
+        <div className="row w-100 m-0 px-4 x-small">
           <div className="col-auto p-0">
             {complete ? (
               <FontAwesomeIcon
@@ -106,18 +53,13 @@ const SequenceLink = ({
               />
             )}
           </div>
-          <div className="col-10 p-0 ml-3 text-break">
-            <span className="align-middle">{displayTitle}</span>
+          <div className="col-10 p-0 ml-3">
+            <span>{displayTitle}</span>
             <span className="sr-only">
               , {intl.formatMessage(complete ? messages.completedAssignment : messages.incompleteAssignment)}
             </span>
-            <EffortEstimate className="ml-3 align-middle" block={sequence} />
+            <EffortEstimate className="ml-2" block={sequence} />
           </div>
-        </div>
-        <div className="row w-100 m-0 ml-3 pl-3">
-          <small className="text-body pl-2">
-            {due ? dueDateMessage : noDueDateMessage}
-          </small>
         </div>
       </div>
     </li>
@@ -130,6 +72,11 @@ SequenceLink.propTypes = {
   courseId: PropTypes.string.isRequired,
   first: PropTypes.bool.isRequired,
   sequence: PropTypes.shape().isRequired,
+  currentSequence: PropTypes.string,
+};
+
+SequenceLink.defaultProps = {
+  currentSequence: null,
 };
 
 export default injectIntl(SequenceLink);

@@ -71,7 +71,7 @@ const SequenceNavigation = ({
     const nextArrow = isRtl(getLocale()) ? ChevronLeft : ChevronRight;
 
     return (
-      <Button variant="link" className="next-btn" onClick={buttonOnClick} disabled={disabled} iconAfter={nextArrow}>
+      <Button variant="link" className="next-btn" size="sm" onClick={buttonOnClick} disabled={disabled} iconAfter={nextArrow}>
         {shouldDisplayNotificationTriggerInSequence ? null : buttonText}
       </Button>
     );
@@ -81,7 +81,7 @@ const SequenceNavigation = ({
 
   return sequenceStatus === LOADED && (
     <nav id="courseware-sequenceNavigation" className={classNames('sequence-navigation', className, { 'mr-2': shouldDisplayNotificationTriggerInSequence })}>
-      <Button variant="link" className="previous-btn" onClick={previousSequenceHandler} disabled={isFirstUnit} iconBefore={prevArrow}>
+      <Button variant="link" className="previous-btn" size="sm" onClick={previousSequenceHandler} disabled={isFirstUnit} iconBefore={prevArrow}>
         {shouldDisplayNotificationTriggerInSequence ? null : intl.formatMessage(messages.previousButton)}
       </Button>
       {renderUnitButtons()}

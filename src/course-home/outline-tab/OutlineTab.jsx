@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { sendTrackEvent } from '@edx/frontend-platform/analytics';
-import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { history } from '@edx/frontend-platform';
+import { sendTrackEvent } from '@edx/frontend-platform/analytics';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { Button } from '@edx/paragon';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { AlertList } from '../../generic/user-messages';
 
-import CourseDates from './widgets/CourseDates';
-import CourseHandouts from './widgets/CourseHandouts';
-import StartOrResumeCourseCard from './widgets/StartOrResumeCourseCard';
-import WeeklyLearningGoalCard from './widgets/WeeklyLearningGoalCard';
-import CourseTools from './widgets/CourseTools';
-import { fetchOutlineTab } from '../data';
-import messages from './messages';
-import Section from './Section';
-import ShiftDatesAlert from '../suggested-schedule-messaging/ShiftDatesAlert';
+import useCourseStartAlert from '../../alerts/course-start-alert';
+import AccountActivationAlert from '../../alerts/logistration-alert/AccountActivationAlert';
+import { useModel } from '../../generic/model-store';
 import UpgradeNotification from '../../generic/upgrade-notification/UpgradeNotification';
+import { fetchOutlineTab } from '../data';
+import ShiftDatesAlert from '../suggested-schedule-messaging/ShiftDatesAlert';
 import UpgradeToShiftDatesAlert from '../suggested-schedule-messaging/UpgradeToShiftDatesAlert';
+import Section from './Section';
 import useCertificateAvailableAlert from './alerts/certificate-status-alert';
 import useCourseEndAlert from './alerts/course-end-alert';
-import useCourseStartAlert from '../../alerts/course-start-alert';
 import usePrivateCourseAlert from './alerts/private-course-alert';
 import useScheduledContentAlert from './alerts/scheduled-content-alert';
-import { useModel } from '../../generic/model-store';
-import WelcomeMessage from './widgets/WelcomeMessage';
+import messages from './messages';
+import CourseDates from './widgets/CourseDates';
+import CourseHandouts from './widgets/CourseHandouts';
+import CourseTools from './widgets/CourseTools';
 import ProctoringInfoPanel from './widgets/ProctoringInfoPanel';
-import AccountActivationAlert from '../../alerts/logistration-alert/AccountActivationAlert';
+import StartOrResumeCourseCard from './widgets/StartOrResumeCourseCard';
+import WeeklyLearningGoalCard from './widgets/WeeklyLearningGoalCard';
+import WelcomeMessage from './widgets/WelcomeMessage';
 
 const OutlineTab = ({ intl }) => {
   const {
@@ -38,7 +37,6 @@ const OutlineTab = ({ intl }) => {
   const {
     isSelfPaced,
     org,
-    title,
     userTimezone,
   } = useModel('courseHomeMeta', courseId);
 
@@ -94,16 +92,6 @@ const OutlineTab = ({ intl }) => {
     });
   };
 
-  const isEnterpriseUser = () => {
-    const authenticatedUser = getAuthenticatedUser();
-    const userRoleNames = authenticatedUser ? authenticatedUser.roles.map(role => role.split(':')[0]) : [];
-
-    return userRoleNames.includes('enterprise_learner');
-  };
-
-  /** show post enrolment survey to only B2C learners */
-  const learnerType = isEnterpriseUser() ? 'enterprise_learner' : 'b2c_learner';
-
   const location = useLocation();
 
   useEffect(() => {
@@ -123,12 +111,7 @@ const OutlineTab = ({ intl }) => {
 
   return (
     <>
-      <div data-learner-type={learnerType} className="row w-100 mx-0 my-3 justify-content-between">
-        <div className="col-12 col-sm-auto p-0">
-          <div role="heading" aria-level="1" className="h2">{title}</div>
-        </div>
-      </div>
-      <div className="row course-outline-tab">
+      <div className="row course-outline-tab px-4">
         <AccountActivationAlert />
         <div className="col-12">
           <AlertList
@@ -138,7 +121,7 @@ const OutlineTab = ({ intl }) => {
             }}
           />
         </div>
-        <div className="col col-12 col-md-8">
+        <div className="col col-12 col-md-9">
           <AlertList
             topic="outline-course-alerts"
             className="mb-3"
@@ -181,7 +164,7 @@ const OutlineTab = ({ intl }) => {
           )}
         </div>
         {rootCourseId && (
-          <div className="col col-12 col-md-4">
+          <div className="col col-12 col-md-3">
             <ProctoringInfoPanel />
             { /** Defer showing the goal widget until the ProctoringInfoPanel has resolved or has been determined as
              disabled to avoid components bouncing around too much as screen is rendered */ }

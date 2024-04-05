@@ -13,10 +13,14 @@ import {
   getSequenceForUnitDeprecated,
   saveSequencePosition,
 } from './data';
+
+import { fetchOutlineTab } from '../course-home/data';
+
 import { TabPage } from '../tab-page';
 
 import Course from './course';
 import { handleNextSectionCelebration } from './course/celebration';
+import SidebarProvider from './course/sidebar/SidebarContextProvider';
 
 // Look at where this is called in componentDidUpdate for more info about its usage
 const checkResumeRedirect = memoize((courseStatus, courseId, sequenceId, firstSequenceId) => {
@@ -46,7 +50,7 @@ const checkSectionToSequenceRedirect = memoize((courseStatus, courseId, sequence
     // If the section is non-empty, redirect to its first sequence.
     if (section.sequenceIds && section.sequenceIds[0]) {
       history.replace(`/course/${courseId}/${section.sequenceIds[0]}`);
-    // Otherwise, just go to the course root, letting the resume redirect take care of things.
+      // Otherwise, just go to the course root, letting the resume redirect take care of things.
     } else {
       history.replace(`/course/${courseId}`);
     }
@@ -143,6 +147,10 @@ class CoursewareContainer extends Component {
     }
   });
 
+  checkFetchOutlineTab = memoize((courseId) => {
+    this.props.fetchOutlineTab(courseId);
+  });
+
   componentDidMount() {
     const {
       match: {
@@ -155,6 +163,7 @@ class CoursewareContainer extends Component {
     // Load data whenever the course or sequence ID changes.
     this.checkFetchCourse(routeCourseId);
     this.checkFetchSequence(routeSequenceId);
+    this.checkFetchOutlineTab(routeCourseId);
   }
 
   componentDidUpdate() {
@@ -179,6 +188,7 @@ class CoursewareContainer extends Component {
     // Load data whenever the course or sequence ID changes.
     this.checkFetchCourse(routeCourseId);
     this.checkFetchSequence(routeSequenceId);
+    this.checkFetchOutlineTab(routeCourseId);
 
     // Check if we should save our sequence position.  Only do this when the route unit ID changes.
     this.checkSaveSequencePosition(routeUnitId);
@@ -296,22 +306,25 @@ class CoursewareContainer extends Component {
     } = this.props;
 
     return (
-      <TabPage
-        activeTabSlug="courseware"
-        courseId={courseId}
-        unitId={routeUnitId}
-        courseStatus={courseStatus}
-        metadataModel="coursewareMeta"
-      >
-        <Course
+      <SidebarProvider courseId={courseId} unitId={routeUnitId}>
+        <TabPage
+          activeTabSlug="courseware"
           courseId={courseId}
           sequenceId={sequenceId}
           unitId={routeUnitId}
-          nextSequenceHandler={this.handleNextSequenceClick}
-          previousSequenceHandler={this.handlePreviousSequenceClick}
-          unitNavigationHandler={this.handleUnitNavigationClick}
-        />
-      </TabPage>
+          courseStatus={courseStatus}
+          metadataModel="coursewareMeta"
+        >
+          <Course
+            courseId={courseId}
+            sequenceId={sequenceId}
+            unitId={routeUnitId}
+            nextSequenceHandler={this.handleNextSequenceClick}
+            previousSequenceHandler={this.handlePreviousSequenceClick}
+            unitNavigationHandler={this.handleUnitNavigationClick}
+          />
+        </TabPage>
+      </SidebarProvider>
     );
   }
 }
@@ -357,6 +370,7 @@ CoursewareContainer.propTypes = {
   checkBlockCompletion: PropTypes.func.isRequired,
   fetchCourse: PropTypes.func.isRequired,
   fetchSequence: PropTypes.func.isRequired,
+  fetchOutlineTab: PropTypes.func.isRequired,
 };
 
 CoursewareContainer.defaultProps = {
@@ -476,4 +490,5 @@ export default connect(mapStateToProps, {
   saveSequencePosition,
   fetchCourse,
   fetchSequence,
+  fetchOutlineTab,
 })(CoursewareContainer);

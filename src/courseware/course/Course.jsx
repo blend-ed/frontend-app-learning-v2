@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Helmet } from 'react-helmet';
-import { useDispatch } from 'react-redux';
 import { getConfig } from '@edx/frontend-platform';
 import { breakpoints, useWindowSize } from '@edx/paragon';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { useDispatch } from 'react-redux';
 
 import { AlertList } from '../../generic/user-messages';
 
@@ -11,12 +11,9 @@ import Sequence from './sequence';
 
 import { CelebrationModal, shouldCelebrateOnSectionLoad, WeeklyGoalCelebrationModal } from './celebration';
 import ContentTools from './content-tools';
-import CourseBreadcrumbs from './CourseBreadcrumbs';
-import SidebarProvider from './sidebar/SidebarContextProvider';
-import SidebarTriggers from './sidebar/SidebarTriggers';
 
-import { useModel } from '../../generic/model-store';
 import { getSessionStorage, setSessionStorage } from '../../data/sessionStorage';
+import { useModel } from '../../generic/model-store';
 
 const Course = ({
   courseId,
@@ -30,7 +27,6 @@ const Course = ({
   const course = useModel('coursewareMeta', courseId);
   const {
     celebrations,
-    isStaff,
   } = useModel('courseHomeMeta', courseId);
   const sequence = useModel('sequences', sequenceId);
   const section = useModel('sections', sequence ? sequence.sectionId : null);
@@ -50,7 +46,6 @@ const Course = ({
   const [weeklyGoalCelebrationOpen, setWeeklyGoalCelebrationOpen] = useState(
     celebrations && !celebrations.streakLengthToCelebrate && celebrations.weeklyGoal,
   );
-  const shouldDisplayTriggers = windowWidth >= breakpoints.small.minWidth;
   const daysPerWeek = course?.courseGoals?.selectedGoal?.daysPerWeek;
 
   // Responsive breakpoints for showing the notification button/tray
@@ -78,23 +73,10 @@ const Course = ({
   }, [sequenceId]);
 
   return (
-    <SidebarProvider courseId={courseId} unitId={unitId}>
+    <>
       <Helmet>
         <title>{`${pageTitleBreadCrumbs.join(' | ')} | ${getConfig().SITE_NAME}`}</title>
       </Helmet>
-      <div className="position-relative d-flex align-items-start">
-        <CourseBreadcrumbs
-          courseId={courseId}
-          sectionId={section ? section.id : null}
-          sequenceId={sequenceId}
-          isStaff={isStaff}
-          unitId={unitId}
-        />
-        {shouldDisplayTriggers && (
-          <SidebarTriggers />
-        )}
-      </div>
-
       <AlertList topic="sequence" />
       <Sequence
         unitId={unitId}
@@ -116,7 +98,7 @@ const Course = ({
         onClose={() => setWeeklyGoalCelebrationOpen(false)}
       />
       <ContentTools course={course} />
-    </SidebarProvider>
+    </>
   );
 };
 

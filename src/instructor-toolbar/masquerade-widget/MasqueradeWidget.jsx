@@ -119,10 +119,10 @@ class MasqueradeWidget extends Component {
     const specificLearnerInputText = this.props.intl.formatMessage(messages.placeholder);
     return (
       <div className="flex-grow-1">
-        <div className="row">
+        <div className="row align-items-center">
           <span className="col-auto col-form-label pl-3">View this course as:</span>
           <Dropdown className="flex-shrink-1 mx-1">
-            <Dropdown.Toggle variant="inverse-outline-primary">
+            <Dropdown.Toggle variant="inverse-outline-primary btn-sm">
               {masquerade}
             </Dropdown.Toggle>
             <Dropdown.Menu>
