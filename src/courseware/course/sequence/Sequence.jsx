@@ -145,7 +145,7 @@ const Sequence = ({
 
   const defaultContent = (
     <div className="sequence-container d-inline-flex flex-row w-100">
-      <div className={classNames('sequence w-100', { 'position-relative': shouldDisplayNotificationTriggerInSequence })}>
+      <div className={classNames('w-100', { 'position-relative mr-0': shouldDisplayNotificationTriggerInSequence })}>
         <div className="sequence-navigation-container">
           <SequenceNavigation
             sequenceId={sequenceId}
@@ -177,19 +177,19 @@ const Sequence = ({
             unitLoadedHandler={handleUnitLoaded}
           />
           {unitHasLoaded && (
-          <UnitNavigation
-            sequenceId={sequenceId}
-            unitId={unitId}
-            onClickPrevious={() => {
-              logEvent('edx.ui.lms.sequence.previous_selected', 'bottom');
-              handlePrevious();
-            }}
-            onClickNext={() => {
-              logEvent('edx.ui.lms.sequence.next_selected', 'bottom');
-              handleNext();
-            }}
-            goToCourseExitPage={() => goToCourseExitPage()}
-          />
+            <UnitNavigation
+              sequenceId={sequenceId}
+              unitId={unitId}
+              onClickPrevious={() => {
+                logEvent('edx.ui.lms.sequence.previous_selected', 'bottom');
+                handlePrevious();
+              }}
+              onClickNext={() => {
+                logEvent('edx.ui.lms.sequence.next_selected', 'bottom');
+                handleNext();
+              }}
+              goToCourseExitPage={() => goToCourseExitPage()}
+            />
           )}
         </div>
       </div>
@@ -199,7 +199,7 @@ const Sequence = ({
 
   if (sequenceStatus === 'loaded') {
     return (
-      <div>
+      <div className="px-3 pt-3">
         <SequenceExamWrapper
           sequence={sequence}
           courseId={courseId}
@@ -207,7 +207,9 @@ const Sequence = ({
           originalUserIsStaff={originalUserIsStaff}
           canAccessProctoredExams={course.canAccessProctoredExams}
         >
-          {defaultContent}
+          <div className="mx-n3">
+            {defaultContent}
+          </div>
         </SequenceExamWrapper>
         <CourseLicense license={course.license || undefined} />
       </div>

@@ -41,23 +41,20 @@ const StartOrResumeCourseCard = ({ intl }) => {
   };
 
   return (
-    <Card className="mb-3 raised-card" data-testid="start-resume-card">
-      <Card.Header
-        title={hasVisitedCourse ? intl.formatMessage(messages.resumeBlurb) : intl.formatMessage(messages.startBlurb)}
-        actions={(
-          <Button
-            variant="brand"
-            block
-            href={resumeCourseUrl}
-            onClick={() => logResumeCourseClick()}
-          >
-            {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
-          </Button>
-        )}
-      />
-      {/* Footer is needed for internal vertical spacing to work out. If you can remove, be my guest */}
+    <Card className="mb-3 raised-card rounded" data-testid="start-resume-card">
+      <Card.Body className="d-flex justify-content-between align-items-center px-4 py-3">
+        <h3 className="mb-0">
+          {hasVisitedCourse ? intl.formatMessage(messages.resumeBlurb) : intl.formatMessage(messages.startBlurb)}
+        </h3>
+        <Button
+          variant="brand"
+          href={resumeCourseUrl}
+          onClick={() => logResumeCourseClick()}
+        >
+          {hasVisitedCourse ? intl.formatMessage(messages.resume) : intl.formatMessage(messages.start)}
+        </Button>
+      </Card.Body>
       {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
-      <Card.Footer><></></Card.Footer>
     </Card>
   );
 };

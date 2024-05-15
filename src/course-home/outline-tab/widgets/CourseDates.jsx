@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import { Card } from '@edx/paragon';
 
 import DateSummary from '../DateSummary';
 import messages from '../messages';
@@ -28,7 +29,7 @@ const CourseDates = ({
   }
 
   return (
-    <section className="mb-4">
+    <Card className="mb-4 rounded py-3 px-4 raised-card">
       <div id="courseHome-dates">
         <h2 className="h4">{intl.formatMessage(messages.dates)}</h2>
         <ol className="list-unstyled">
@@ -44,7 +45,7 @@ const CourseDates = ({
           {intl.formatMessage(messages.allDates)}
         </a>
       </div>
-    </section>
+    </Card>
   );
 };
 

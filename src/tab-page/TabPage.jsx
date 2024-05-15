@@ -4,7 +4,6 @@ import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 
-import Footer from '@edx/frontend-component-footer';
 import { Toast } from '@edx/paragon';
 import { LearningHeader as Header } from '@edx/frontend-component-header';
 import PageLoading from '../generic/PageLoading';
@@ -45,7 +44,6 @@ const TabPage = ({ intl, ...props }) => {
         <PageLoading
           srMessage={intl.formatMessage(messages.loading)}
         />
-        <Footer />
       </>
     );
   }
@@ -74,13 +72,17 @@ const TabPage = ({ intl, ...props }) => {
           {toastHeader}
         </Toast>
         {metadataModel === 'courseHomeMeta' && (<LaunchCourseHomeTourButton srOnly />)}
-        <Header
-          courseOrg={org}
-          courseNumber={number}
-          courseTitle={title}
-        />
+        <div
+          className="position-fixed w-100"
+          style={{ zIndex: 1000 }}
+        >
+          <Header
+            courseOrg={org}
+            courseNumber={number}
+            courseTitle={title}
+          />
+        </div>
         <LoadedTabPage {...props} />
-        <Footer />
       </>
     );
   }
@@ -92,7 +94,6 @@ const TabPage = ({ intl, ...props }) => {
       <p className="text-center py-5 mx-auto" style={{ maxWidth: '30em' }}>
         {intl.formatMessage(messages.failure)}
       </p>
-      <Footer />
     </>
   );
 };
@@ -106,6 +107,7 @@ TabPage.propTypes = {
   activeTabSlug: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   courseId: PropTypes.string,
+  sequenceId: PropTypes.string.isRequired,
   courseStatus: PropTypes.string.isRequired,
   metadataModel: PropTypes.string.isRequired,
   unitId: PropTypes.string,

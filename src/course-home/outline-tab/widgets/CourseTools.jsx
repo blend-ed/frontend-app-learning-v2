@@ -9,6 +9,7 @@ import {
   faBookmark, faCertificate, faInfo, faCalendar, faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import { faNewspaper } from '@fortawesome/free-regular-svg-icons';
+import { Card } from '@edx/paragon';
 
 import messages from '../messages';
 import { useModel } from '../../../generic/model-store';
@@ -62,7 +63,7 @@ const CourseTools = ({ intl }) => {
   };
 
   return (
-    <section className="mb-4">
+    <Card className="mb-4 rounded pt-3 px-4 raised-card">
       <h2 className="h4">{intl.formatMessage(messages.tools)}</h2>
       <ul className="list-unstyled">
         {courseTools.map((courseTool) => (
@@ -77,7 +78,7 @@ const CourseTools = ({ intl }) => {
           <LaunchCourseHomeTourButton />
         </li>
       </ul>
-    </section>
+    </Card>
   );
 };
 
