@@ -7,7 +7,9 @@ import {
   Button,
   Layout,
   Scrollable,
+  breakpoints,
   useToggle,
+  useWindowSize,
 } from '@edx/paragon';
 
 import useEnrollmentAlert from '../alerts/enrollment-alert';
@@ -58,8 +60,9 @@ const LoadedTabPage = ({
   const streakDiscountCouponEnabled = celebrations && celebrations.streakDiscountEnabled && verifiedMode;
   const [isStreakCelebrationOpen, , closeStreakCelebration] = useToggle(streakLengthToCelebrate);
   const rootCourseId = courses && Object.keys(courses)[0];
+  const wideScreen = useWindowSize().width >= breakpoints.medium.minWidth;
 
-  if (activeTabSlug === 'courseware') {
+  if (activeTabSlug === 'courseware' && wideScreen) {
     return (
       <div
         style={{
@@ -183,7 +186,7 @@ const LoadedTabPage = ({
       <Helmet>
         <title>{`${activeTab ? `${activeTab.title} | ` : ''}${title} | ${getConfig().SITE_NAME}`}</title>
       </Helmet>
-      {originalUserIsStaff && (
+      {originalUserIsStaff && wideScreen && (
         <InstructorToolbar
           courseId={courseId}
           unitId={unitId}
@@ -208,7 +211,7 @@ const LoadedTabPage = ({
             ...logistrationAlert,
           }}
         />
-        <CourseTabsNavigation tabs={tabs} className="mb-3" activeTabSlug={activeTabSlug} />
+        <CourseTabsNavigation tabs={tabs} className={wideScreen && 'mb-3'} activeTabSlug={activeTabSlug} />
         <div className="container-xl">
           {children}
         </div>

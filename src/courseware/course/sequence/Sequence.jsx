@@ -20,7 +20,6 @@ import { useSequenceBannerTextAlert, useSequenceEntranceExamAlert } from '../../
 
 import CourseLicense from '../course-license';
 import Sidebar from '../sidebar/Sidebar';
-import SidebarTriggers from '../sidebar/SidebarTriggers';
 import messages from './messages';
 import HiddenAfterDue from './hidden-after-due';
 import { SequenceNavigation, UnitNavigation } from './sequence-navigation';
@@ -165,7 +164,6 @@ const Sequence = ({
             }}
             goToCourseExitPage={() => goToCourseExitPage()}
           />
-          {shouldDisplayNotificationTriggerInSequence && <SidebarTriggers />}
         </div>
 
         <div className="unit-container flex-grow-1">
@@ -199,7 +197,7 @@ const Sequence = ({
 
   if (sequenceStatus === 'loaded') {
     return (
-      <div className="px-3 pt-3">
+      <div className={!shouldDisplayNotificationTriggerInSequence && 'px-3'}>
         <SequenceExamWrapper
           sequence={sequence}
           courseId={courseId}

@@ -11,6 +11,7 @@ const config = createConfig('eslint', {
     'react/jsx-no-useless-fragment': 'off',
     'react/no-unknown-property': 'off',
     'func-names': 'off',
+    'import/no-unresolved': 'off',
   },
 });
 
