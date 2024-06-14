@@ -341,7 +341,7 @@ class Calculator extends Component {
                         <li>arccsch(4x+y)</li>
                       </ul>
                     </td>
-                    <td dir="auto" />
+                    <td dir="auto" aria-label="button to close the table" />
                   </tr>
                   <tr>
                     <th scope="row">
