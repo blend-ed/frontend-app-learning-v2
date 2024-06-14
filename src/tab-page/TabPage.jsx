@@ -1,20 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { LearningHeader as Header } from '@edx/frontend-component-header';
 import { injectIntl, intlShape } from '@edx/frontend-platform/i18n';
+import {
+  breakpoints,
+  useWindowSize,
+  Toast,
+} from '@edx/paragon';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-
-import { Toast } from '@edx/paragon';
-import { LearningHeader as Header } from '@edx/frontend-component-header';
 import PageLoading from '../generic/PageLoading';
-import { getAccessDeniedRedirectUrl } from '../shared/access';
 import { useModel } from '../generic/model-store';
+import { getAccessDeniedRedirectUrl } from '../shared/access';
 
-import genericMessages from '../generic/messages';
-import messages from './messages';
-import LoadedTabPage from './LoadedTabPage';
 import { setCallToActionToast } from '../course-home/data/slice';
+import genericMessages from '../generic/messages';
 import LaunchCourseHomeTourButton from '../product-tours/newUserCourseHomeTour/LaunchCourseHomeTourButton';
+import LoadedTabPage from './LoadedTabPage';
+import messages from './messages';
 
 const TabPage = ({ intl, ...props }) => {
   const {
@@ -36,6 +39,8 @@ const TabPage = ({ intl, ...props }) => {
     start,
     title,
   } = useModel('courseHomeMeta', courseId);
+
+  const wideScreen = useWindowSize().width >= breakpoints.medium.minWidth;
 
   if (courseStatus === 'loading') {
     return (
@@ -72,16 +77,24 @@ const TabPage = ({ intl, ...props }) => {
           {toastHeader}
         </Toast>
         {metadataModel === 'courseHomeMeta' && (<LaunchCourseHomeTourButton srOnly />)}
-        <div
-          className="position-fixed w-100"
-          style={{ zIndex: 1000 }}
-        >
+        {wideScreen ? (
+          <div
+            className="position-fixed w-100"
+            style={{ zIndex: 1000 }}
+          >
+            <Header
+              courseOrg={org}
+              courseNumber={number}
+              courseTitle={title}
+            />
+          </div>
+        ) : (
           <Header
             courseOrg={org}
             courseNumber={number}
             courseTitle={title}
           />
-        </div>
+        )}
         <LoadedTabPage {...props} />
       </>
     );

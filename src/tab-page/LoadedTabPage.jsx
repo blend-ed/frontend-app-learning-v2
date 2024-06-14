@@ -167,16 +167,7 @@ const LoadedTabPage = ({
   }
 
   return (
-    <div
-      style={{
-        bottom: '0',
-        top: '3.3em',
-        left: '0',
-        right: '0',
-        position: 'fixed',
-        overflowX: 'hidden',
-      }}
-    >
+    <div>
       <ProductTours
         activeTab={activeTabSlug}
         courseId={courseId}
