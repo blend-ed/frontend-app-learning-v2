@@ -77,7 +77,7 @@ const TabPage = ({ intl, ...props }) => {
           {toastHeader}
         </Toast>
         {metadataModel === 'courseHomeMeta' && (<LaunchCourseHomeTourButton srOnly />)}
-        {wideScreen ? (
+        {(!metadataModel === 'courseHomeMeta' && wideScreen) ? (
           <div
             className="position-fixed w-100"
             style={{ zIndex: 1000 }}

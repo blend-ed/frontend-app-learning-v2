@@ -111,7 +111,7 @@ const OutlineTab = ({ intl }) => {
 
   return (
     <>
-      <div className="row course-outline-tab px-4">
+      <div className="row course-outline-tab px-md-4">
         <AccountActivationAlert />
         <div className="col-12">
           <AlertList
