@@ -12,7 +12,6 @@ import { useEventListener } from '../../../generic/hooks';
 import { useModel } from '../../../generic/model-store';
 import PageLoading from '../../../generic/PageLoading';
 import { fetchCourse } from '../../data';
-import BookmarkButton from '../bookmark/BookmarkButton';
 import ShareButton from '../share/ShareButton';
 import messages from './messages';
 
@@ -156,11 +155,6 @@ const Unit = ({
     <div className="unit">
       <h1 className="mb-0 h3">{unit.title}</h1>
       <h2 className="sr-only">{intl.formatMessage(messages.headerPlaceholder)}</h2>
-      <BookmarkButton
-        unitId={unit.id}
-        isBookmarked={unit.bookmarked}
-        isProcessing={unit.bookmarkedUpdateState === 'loading'}
-      />
       {/* TODO: social share exp. Need to remove later */}
       {(window.expSocialShareAboutUrls && window.expSocialShareAboutUrls[unit.id] !== undefined) && (
         <ShareButton url={window.expSocialShareAboutUrls[unit.id]} />
@@ -200,7 +194,7 @@ const Unit = ({
           body={(
             <>
               {modalOptions.body
-                ? <div className="unit-modal">{ modalOptions.body }</div>
+                ? <div className="unit-modal">{modalOptions.body}</div>
                 : (
                   <iframe
                     title={modalOptions.title}
