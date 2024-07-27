@@ -47,7 +47,6 @@ CourseTabsNavigation.propTypes = {
     url: PropTypes.string.isRequired,
   })).isRequired,
   intl: intlShape.isRequired,
-  showSidebarTriggers: PropTypes.bool.isRequired,
 };
 
 CourseTabsNavigation.defaultProps = {
