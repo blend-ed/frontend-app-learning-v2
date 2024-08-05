@@ -67,8 +67,8 @@ const CourseTools = ({ intl }) => {
       <h2 className="h4">{intl.formatMessage(messages.tools)}</h2>
       <ul className="list-unstyled">
         {courseTools
-          // filter out the bookmarks tool
-          .filter((courseTool) => courseTool.analyticsId !== 'edx.bookmarks')
+          // filter out the bookmarks and updates tool
+          .filter((courseTool) => courseTool.analyticsId !== 'edx.bookmarks' && courseTool.analyticsId !== 'edx.updates')
           .map((courseTool) => (
             <li key={courseTool.analyticsId} className="small">
               <a href={courseTool.url} onClick={() => logClick(courseTool.analyticsId)}>
