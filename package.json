@@ -31,7 +31,7 @@
   "dependencies": {
     "@edx/brand": "npm:@openedx/brand-openedx@1.2.3",
     "@edx/frontend-component-footer": "^12.0.0",
-    "@edx/frontend-component-header": "^4.0.0",
+    "@edx/frontend-component-header": "git+https://github.com/blend-ed/frontend-component-header.git#se-v1",
     "@edx/frontend-lib-special-exams": "^2.16.1",
     "@edx/frontend-platform": "^4.2.0",
     "@edx/paragon": "20.28.4",
